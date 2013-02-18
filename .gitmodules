@@ -1,0 +1,3 @@
+[submodule "gauge"]
+	path = gauge
+	url = git://github.com/bernii/gauge.js.git
