@@ -1,20 +1,23 @@
+// this script sets all of the configuration options for the gauge
+// this script receives an object 'gaugeOptions' from the plugin.php file in the wp-gauge plugin
+
 var opts = {
-	lines: 12, // The number of lines to draw
-	angle: 0.15, // The length of each line
-	lineWidth: 0.19, // The line thickness
+	lines: parseInt(gaugeOptions.lines), // The number of lines to draw
+	angle: parseFloat(gaugeOptions.angle), // The length of each line
+	lineWidth: parseFloat(gaugeOptions.lineWidth), // The line thickness
 	pointer: {
-		length: 0.83, // The radius of the inner circle
-		strokeWidth: 0.079, // The rotation offset
-		color: '#FF0808' // Fill color
+		length: gaugeOptions.pointerLength, // The radius of the inner circle
+		strokeWidth: gaugeOptions.pointerStrokeWidth, // The rotation offset
+		color: gaugeOptions.pointerColor // Fill color
 	},
-	colorStart: '#6FADCF', // Colors
-	colorStop: '#fdb813', // just experiment with them
-	strokeColor: '#0d5d32', // to see which ones work best for you
-	generateGradient: true
+	colorStart: gaugeOptions.colorStart, // Colors
+	colorStop: gaugeOptions.colorStop, // just experiment with them
+	strokeColor: gaugeOptions.strokeColor, // to see which ones work best for you
+	generateGradient: gaugeOptions.generateGradient
 };
 var target = document.getElementById('wp-gauge'); // your canvas element
 var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
-gauge.maxValue = 50000; // set max gauge value
-gauge.animationSpeed = 50; // set animation speed (32 is default value)
-gauge.setTextField(document.getElementById('preview-textfield'));
-gauge.set(20000); // set actual value
+gauge.maxValue = gaugeOptions.maxValue; // set max gauge value
+gauge.animationSpeed = gaugeOptions.animationSpeed; // set animation speed (32 is default value)
+gauge.setTextField(document.getElementById(gaugeOptions.textField));
+gauge.set(parseInt(gaugeOptions.gaugeValue)); // set actual value

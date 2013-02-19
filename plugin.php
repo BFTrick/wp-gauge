@@ -49,7 +49,7 @@ class GaugeJs
 		$this->shortcodePresent = false;
 
 		// register the scripts
-		add_action('init', array( &$this, 'register_scripts' ), 1000);
+		add_action('init', array( &$this, 'register_scripts' ), 100);
 
 		// print the scripts
 		add_action('wp_footer', array( &$this, 'print_scripts' ));
@@ -63,13 +63,51 @@ class GaugeJs
 	/**
 	 * Process the shortcode and return the content
 	 */
-	public function process_shortcode()
+	public function process_shortcode($atts)
 	{
-
+		// print_r($atts); exit();
 		// this function is only called when the shortcode is present
 		// save this status in a variable
 		$this->shortcodePresent = true;
 
+		// process and set defaults for the shortcode attributes
+		extract( shortcode_atts( array(
+			'lines'=>12, 
+			'angle'=>0.15, 
+			'line_width'=>0.19, 
+			'pointer_length'=>0.83, 
+			'pointer_stroke_width'=>0.079, 
+			'pointer_color'=>'#FF0808', 
+			'color_start'=>'#6FADCF', 
+			'color_stop'=>'#fdb813', 
+			'stroke_color'=>'#0d5d32', 
+			'generate_gradient'=>true,
+			'max_value'=>50000,
+			'animation_speed'=>50,
+			'text_field'=>'preview-textfield',
+			'gauge_value'=>21000
+		), $atts ) );
+
+		// send shortcode attributes to JS file
+		$gaugeOptions = array( 
+			'lines'=>$lines, 
+			'angle'=>$angle, 
+			'lineWidth'=>$line_width, 
+			'pointerLength'=>$pointer_length, 
+			'pointerStrokeWidth'=>$pointer_stroke_width, 
+			'pointerColor'=>$pointer_color, 
+			'colorStart'=>$color_start, 
+			'colorStop'=>$color_stop, 
+			'strokeColor'=>$stroke_color, 
+			'generateGradient'=>$generate_gradient,
+			'maxValue'=>$max_value,
+			'animationSpeed'=>$animation_speed,
+			'textField'=>$text_field,
+			'gaugeValue'=>$gauge_value
+		);
+		wp_localize_script( 'gauge-options', 'gaugeOptions', $gaugeOptions );
+
+		// create html to print to the screen
 		$html = "<canvas id='wp-gauge'></canvas>";
 
 		return $html;
@@ -84,7 +122,7 @@ class GaugeJs
 	{
 		// register the gauge scripts
 		wp_register_script('gauge', plugins_url('gauge/dist/gauge.js', __FILE__), array('jquery'), '1.0', true);
-		wp_register_script('gauge-options', plugins_url('assets/js/script.js', __FILE__), array('jquery'), '1.0.1', true);
+		wp_register_script('gauge-options', plugins_url('assets/js/script.js', __FILE__), array('jquery'), '0.1.1', true);
 	}
 
 
