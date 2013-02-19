@@ -37,6 +37,4 @@ The `[gauge]` shortcode should work as is in your posts. It also has a few attri
 ## Wishlist
 
 * allow multiple gauges on one page
-* create options page for basic gauge settings
-* create an actual script file instead of printing the script inline
-* load script files in footer instead of header
+* create options page for default/shared gauge settings
